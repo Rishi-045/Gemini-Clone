@@ -13,7 +13,7 @@ async function runChat(prompt) {
   const result = await model.generateContent(prompt);
 
   // Extract and print response
-  const response = result.response;
+  const response =  result.response;
   console.log(response.text());
   return response.text();
 }

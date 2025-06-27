@@ -19,13 +19,26 @@ const dealyPara = (index,nextWord) => {
    },75*index)
 }
 
+const newChat = () =>{
+    setLoading(false);
+    setShowResult(false);
+}
+
 
     const onSent = async (prompt) => {
         setResultData("");
         setLoading(true);
         setShowResult(true)
-        setRecentPrompt(input);
-        const response = await runChat(input);
+        let response;
+        if(prompt !== undefined){
+            setRecentPrompt(prompt)
+            response = await runChat(prompt)
+
+        }else{
+            setRecentPrompt(input);
+          setPrevPrompts((prev)=>[...prev,input]);
+           response = await runChat(input);
+        }
         let responseArray = response.split("**");
         let newResponse="";
         for(let i=0; i < responseArray.length; i++){
@@ -36,8 +49,9 @@ const dealyPara = (index,nextWord) => {
             }
         }
         let newResponse2 = newResponse.split("*").join("</br>")
+       
         let newResponseArray = newResponse2.split(" ");
-       console.log(newResponseArray)
+       
         for(let i=0; i < newResponseArray.length; i++){
             const nextWord = newResponseArray[i];
             dealyPara(i,nextWord+" ");
@@ -59,7 +73,8 @@ const dealyPara = (index,nextWord) => {
         loading,
         resultData,
         input,
-        setInput
+        setInput,
+        newChat
 
     }
 
